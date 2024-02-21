@@ -19,6 +19,7 @@ class SerialGUI(QWidget,Ui_Form):
     timeShow = False
     autoSend = False
     fullData = ""
+    check = False
     # 定义一个信号，用于接收串口数据 可以触发槽函数的 详见 Readme.md
     receive_data_signal = pyqtSignal(str)
 
@@ -38,6 +39,8 @@ class SerialGUI(QWidget,Ui_Form):
         self.checkBox_2.setChecked(True)
         self.checkBox_8.toggled.connect(self.autoSent)
         self.checkBox_8.setChecked(False)
+        self.checkBox_6.setChecked(False)
+        self.checkBox_6.toggled.connect(self.checkState)
         self.checkBox.clicked.connect(self.changeSerialState)
         self.checkBox_5.toggled.connect(self.timeShowState)
         self.sendData.clicked.connect(self.sendMessage)
@@ -51,6 +54,9 @@ class SerialGUI(QWidget,Ui_Form):
         for x in range(43) :
             label = getattr(self, f"label_{81+2*x}")  # 获取对应索引的label对象
             label.setText("-----")
+
+    def checkState(self):
+        self.check = not self.check
 
     def radioFunc1(self):
         if self.radioButton.isChecked() == True :
@@ -166,11 +172,13 @@ class SerialGUI(QWidget,Ui_Form):
 
     def update_received_data(self,data): # receive_data_signal的槽函数
         if self.timeShow == False :
-            # self.textBrowser.append(data)
+            if self.check == False :
+                self.textBrowser.append(data)
             self.fullData = self.fullData + data
             if self.fullData[-1] == "\n" or self.fullData[-1] == "\r":
                 self.textBrowser_2.append(self.fullData)
-                self.textBrowser.append(self.fullData)
+                if self.check == True :
+                    self.textBrowser.append(self.fullData)
 
 
                 string = re.sub(r'\D', '', self.fullData) # 删除除了数字之外的所有字符串
