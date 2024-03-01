@@ -4,9 +4,10 @@ from PyQt5.QtWidgets import *
 import sys
 
 class portHasBeenOpened(Ui_Dialog,QDialog):
-    def __init__(self):
+    def __init__(self,text):
         super().__init__()
         self.setupUi(self)
+        self.label.setText(text)
 
 
 # app = QApplication(sys.argv)

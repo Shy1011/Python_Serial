@@ -46,14 +46,30 @@ class SerialGUI(QWidget,Ui_Form):
         self.sendData.clicked.connect(self.sendMessage)
         self.ClearData.clicked.connect(self.clearData)
         self.receive_data_signal.connect(self.update_received_data)
+        self.pushButton_2.clicked.connect(self.push)
         self.radioButton.toggled.connect(self.radioFunc1)
         self.radioButton.setChecked(True)
         self.radioButton_2.toggled.connect(self.radioFunc2)
         self.pushButton.clicked.connect(self.clearLabel)
         # self.radioButton_2.setChecked(True)
+
+
         for x in range(43) :
             label = getattr(self, f"label_{81+2*x}")  # 获取对应索引的label对象
             label.setText("-----")
+
+        for x in range(100) :
+            text = getattr(self, f"lineEdit_{x + 200}")
+            label = getattr(self, f"label_{x + 200}")  # 获取对应索引的label对象
+            label.setText("-----")
+            text.setText("TBD")
+
+    def push(self):
+        for x in range(100):
+            text = getattr(self, f"lineEdit_{x + 200}")
+            label = getattr(self, f"label_{x + 200}")  # 获取对应索引的label对象
+            label.setText("-----")
+            # text.setText("TBD")
 
     def checkState(self):
         self.check = not self.check
@@ -105,7 +121,7 @@ class SerialGUI(QWidget,Ui_Form):
             self.label_9.setText(f'Rx : {str(self.dataSent)}')
         except :
             print("The port has already been opened")
-            win = portHasBeenOpened()
+            win = portHasBeenOpened("请先打开窗口")
             win.exec()
 
     def changeSerialState(self):   # 开关串口的端口
@@ -133,8 +149,10 @@ class SerialGUI(QWidget,Ui_Form):
 
             except :
                 print("The port has already been opened")
-                win = portHasBeenOpened()
+                win = portHasBeenOpened("此端口已被占用")
                 win.exec()
+                self.checkBox.set
+
 
 
 
@@ -184,12 +202,27 @@ class SerialGUI(QWidget,Ui_Form):
                 string = re.sub(r'\D', '', self.fullData) # 删除除了数字之外的所有字符串
                 self.fullData = ""
                 print(len(string))
+                signalNumber2 = int(len(string)/5)
+                self.lineEdit_200.setText(str(signalNumber2))
                 signalNumber = int(self.comboBox_7.currentText())
                 print(signalNumber)
-                if len(string) >= (signalNumber*5) :
+                groups = [string[i:i + 5] for i in range(0, len(string), 5)]  # 按照五个为一组分割字符串
+                for i in range(signalNumber2) :
+                    text = getattr(self, f"lineEdit_{i + 200}")
+                    label = getattr(self, f"label_{i + 200}")  # 获取对应索引的label对象
+                    label.setText(groups[i])
+                    text.setText("TBD")
+                    # text = getattr(self, f"lineEdit_{299 - i}")
+                    # label = getattr(self, f"label_{299 - i}")  # 获取对应索引的label对象
+                    # label.setText("---")
+                    # text.setText("TBD")
+
+
+
+                if len(string) >= (signalNumber*5) :   # 因为每个信号是用5个字符表示的,只有当被解析的字符串大于5*信号数量的时候才开始更新信号
 
                     # 将字符串按照每五个字符一组分割
-                    groups = [string[i:i + 5] for i in range(0, len(string), 5)] # 按照五个为一组分割字符串
+                    # groups = [string[i:i + 5] for i in range(0, len(string), 5)] # 按照五个为一组分割字符串
                     if (signalNumber >= 10) :
                         start_index = 81
                         for i in range(10):
