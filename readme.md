@@ -102,5 +102,11 @@ $000
 1 0002#        
 如果你想显示完整的串口数据,可能就需要先判断,再处理.   再拼接       
 
-![img_1.png](img_1.png)
-你可以把显示时间打开就能看到了,所有的数据并不是第一时间一起发过来的,而是分为两段甚至是三段发送过来的.     
+![img_1.png](img_1.png)  
+你可以把显示时间打开就能看到了,所有的数据并不是第一时间一起发过来的,而是分为两段甚至是三段发送过来的.    
+
+Pyqt5 打包文件 首先需要安装pyinstaller    
+pip install pyinstaller    
+
+pyinstaller -F -w serialGUI.py 不带控制台的打包    
+pyinstaller -F -i xx.ico setup.py 指定生成的exe文件   
