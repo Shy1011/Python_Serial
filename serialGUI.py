@@ -19,7 +19,7 @@ class SerialGUI(QWidget,Ui_Form):
     timeShow = False # 是否显示时间标志位
     autoSend = False # 是否自动重发标志位
     fullData = ""  # 缓存的数据 显示的数据
-    check = False # 
+    check = False #
 
     # 定义一个信号，用于接收串口数据 可以触发槽函数的 详见 Readme.md
     receive_data_signal = pyqtSignal(str)
@@ -63,17 +63,27 @@ class SerialGUI(QWidget,Ui_Form):
             text = getattr(self, f"lineEdit_{x + 200}")
             label = getattr(self, f"label_{x + 200}")  # 获取对应索引的label对象
             label.setText("-----")
-            text.setText("TBD")
+            text.setText("")
+            text.setToolTip('Enter text')  # 设置工具提示
 
     def push(self):
         for x in range(100):
             text = getattr(self, f"lineEdit_{x + 200}")
             label = getattr(self, f"label_{x + 200}")  # 获取对应索引的label对象
             label.setText("-----")
-            text.setText("TBD")
+            # text.setText("")
+            self.label_299.setText("Ran Shuai")
 
     def checkState(self):
-        self.check = not self.check
+        if self.state:
+            self.check = not self.check
+        if (self.state == False) :
+            win = portHasBeenOpened("监测前 请先打开串口")
+            win.exec()
+            self.check = False
+            self.checkBox_6.setChecked(False)
+
+
 
     def radioFunc1(self):
         if self.radioButton.isChecked():
@@ -132,7 +142,7 @@ class SerialGUI(QWidget,Ui_Form):
                 self.threadFlag = False
                 self.ser.closeSerial()
                 print("Serial Close")
-                self.label_10.setText("Close")
+                # self..setText("Close")
 
             except :
                 print("Something is Wrong")
@@ -144,7 +154,7 @@ class SerialGUI(QWidget,Ui_Form):
                 time_thread = threading.Thread(target=self.recData)
                 time_thread.start()
                 print("Serial Open")
-                self.label_10.setText("Open")
+                # self.label_10.setText("Open")
 
 
 
@@ -152,7 +162,7 @@ class SerialGUI(QWidget,Ui_Form):
                 print("The port has already been opened")
                 self.state = False
                 self.checkBox.setChecked(False)
-                win = portHasBeenOpened("此端口已被占用/或端口异常 \n 请选择另外的端口")
+                win = portHasBeenOpened("此端口已被占用/或端口异常 \n    请选择另外的端口")
                 win.exec()
 
 
