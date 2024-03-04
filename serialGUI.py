@@ -11,15 +11,16 @@ import re
 from thread import  CountThread
 class SerialGUI(QWidget,Ui_Form):
     text = "Hello"
-    state = False
-    threadFlag = True
-    dataNumber = 0
-    dataSent = 0
-    ascllState = False
-    timeShow = False
-    autoSend = False
-    fullData = ""
-    check = False
+    state = False # 端口状态
+    threadFlag = True # 线程开启状态
+    dataNumber = 0 # 接收到的字符串数量
+    dataSent = 0  # 发送了多少个字符串
+    ascllState = False # ACII/HEX显示标志位
+    timeShow = False # 是否显示时间标志位
+    autoSend = False # 是否自动重发标志位
+    fullData = ""  # 缓存的数据 显示的数据
+    check = False # 
+
     # 定义一个信号，用于接收串口数据 可以触发槽函数的 详见 Readme.md
     receive_data_signal = pyqtSignal(str)
 
@@ -75,11 +76,11 @@ class SerialGUI(QWidget,Ui_Form):
         self.check = not self.check
 
     def radioFunc1(self):
-        if self.radioButton.isChecked() == True :
+        if self.radioButton.isChecked():
             print("1 is Checked")
 
     def radioFunc2(self):
-        if self.radioButton_2.isChecked() == True :
+        if self.radioButton_2.isChecked():
             print("2 is Checked")
 
     def autoSent(self):
@@ -203,7 +204,7 @@ class SerialGUI(QWidget,Ui_Form):
                 string = re.sub(r'\D', '', self.fullData) # 删除除了数字之外的所有字符串
                 self.fullData = ""
                 print(len(string))
-                signalNumber2 = int(len(string)/5)
+                signalNumber2 = int(len(string)/5) # 解析后的信号个数
                 # self.lineEdit_200.setText(str(signalNumber2))
                 signalNumber = int(self.comboBox_7.currentText())
                 print(signalNumber)
@@ -221,9 +222,6 @@ class SerialGUI(QWidget,Ui_Form):
 
 
                 if len(string) >= (signalNumber*5) :   # 因为每个信号是用5个字符表示的,只有当被解析的字符串大于5*信号数量的时候才开始更新信号
-
-                    # 将字符串按照每五个字符一组分割
-                    # groups = [string[i:i + 5] for i in range(0, len(string), 5)] # 按照五个为一组分割字符串
                     if (signalNumber >= 10) :
                         start_index = 81
                         for i in range(10):
