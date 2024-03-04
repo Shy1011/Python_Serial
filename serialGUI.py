@@ -136,7 +136,7 @@ class SerialGUI(QWidget,Ui_Form):
             except :
                 print("Something is Wrong")
 
-        else :
+        elif(self.state == True):
             try :
                 self.threadFlag = True
                 self.ser.openSerial()
@@ -149,9 +149,10 @@ class SerialGUI(QWidget,Ui_Form):
 
             except :
                 print("The port has already been opened")
-                win = portHasBeenOpened("此端口已被占用")
+                self.state = False
+                self.checkBox.setChecked(False)
+                win = portHasBeenOpened("此端口已被占用/或端口异常 \n 请选择另外的端口")
                 win.exec()
-                self.checkBox.set
 
 
 
