@@ -1,3 +1,4 @@
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import *
 import sys
 from SerialPort import  Ui_Form
@@ -33,6 +34,8 @@ class SerialGUI(QWidget,Ui_Form):
         self.setupUi(self) # UI 初始化设置
         self.portSearch() # 搜索 串口端口
         self.textBrowser.setText("")
+        self.setWindowIcon(QIcon('R.png'))  # 设置窗口图标
+        self.setWindowTitle('串口助手')
 
         self.comboBox.currentIndexChanged.connect(self.updateLabel_1)  # combo_2 槽函数
         self.comboBox_2.currentIndexChanged.connect(self.updateLabel_2) # combo_2 槽函数
