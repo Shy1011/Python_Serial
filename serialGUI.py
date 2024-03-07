@@ -11,7 +11,6 @@ import time
 import re
 from thread import  CountThread
 class SerialGUI(QWidget,Ui_Form):
-    text = "Hello"
     state = False # 端口状态
     threadFlag = True # 线程开启状态
     dataNumber = 0 # 接收到的字符串数量
@@ -55,7 +54,6 @@ class SerialGUI(QWidget,Ui_Form):
         self.radioButton.setChecked(True)
         self.radioButton_2.toggled.connect(self.radioFunc2)
         self.pushButton.clicked.connect(self.clearLabel)
-        # self.radioButton_2.setChecked(True)
 
 
         for x in range(43) :
@@ -223,14 +221,8 @@ class SerialGUI(QWidget,Ui_Form):
                 print(signalNumber)
                 groups = [string[i:i + 5] for i in range(0, len(string), 5)]  # 按照五个为一组分割字符串
                 for i in range(signalNumber2) :
-                    text = getattr(self, f"lineEdit_{i + 200}")
                     label = getattr(self, f"label_{i + 200}")  # 获取对应索引的label对象
                     label.setText(groups[i])
-                    # text.setText("TBD")
-                    # text = getattr(self, f"lineEdit_{299 - i}")
-                    # label = getattr(self, f"label_{299 - i}")  # 获取对应索引的label对象
-                    # label.setText("---")
-                    # text.setText("TBD")
 
 
 
