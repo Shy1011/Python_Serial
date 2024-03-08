@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1095, 818)
+        Form.resize(1099, 827)
         Form.setStyleSheet("font: 11pt \"MV Boli\";\n"
 "font: 11pt \"楷体\";")
         self.tabWidget = QtWidgets.QTabWidget(Form)

@@ -11,6 +11,7 @@ import time
 import re
 import xlwings as xw
 class SerialGUI(QWidget,Ui_Form):
+
     state = False # 端口状态
     threadFlag = True # 线程开启状态
     dataNumber = 0 # 接收到的字符串数量
@@ -22,7 +23,9 @@ class SerialGUI(QWidget,Ui_Form):
     check = False #
     NameTest = "A1"
 
+
     # 定义一个信号，用于接收串口数据 可以触发槽函数的 详见 Readme.md
+    # 触发函数用一个数字出发函数
     receive_data_signal = pyqtSignal(str)
 
 
@@ -71,6 +74,8 @@ class SerialGUI(QWidget,Ui_Form):
         self.pushButton.clicked.connect(self.clearLabel)
         self.pushButton_3.clicked.connect(self.btn3)
 
+
+        # settooltips  hints
         self.pushButton_3.setToolTip("按下这个按键来设置名字")
         self.comboBox_8.setToolTip("选择表格中哪一列的数据")
         self.pushButton_2.setToolTip("清楚表格中所有侦测到的数据")
@@ -251,7 +256,6 @@ class SerialGUI(QWidget,Ui_Form):
                 self.fullData = ""
                 print(len(string))
                 signalNumber2 = int(len(string)/5) # 解析后的信号个数
-                # self.lineEdit_200.setText(str(signalNumber2))
                 signalNumber = int(self.comboBox_7.currentText())
                 print(signalNumber)
                 groups = [string[i:i + 5] for i in range(0, len(string), 5)]  # 按照五个为一组分割字符串
