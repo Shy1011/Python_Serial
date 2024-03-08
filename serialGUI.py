@@ -275,7 +275,6 @@ class SerialGUI(QWidget,Ui_Form):
             self.textBrowser.append(f'{formatted_time} {data}')
 
         self.label_8.setText(f'Rx : {str(self.dataNumber)}')
-        # print("Current time:", datetime.now())
 
     def clearLabel(self):
         for x in range(43) :
@@ -292,8 +291,6 @@ class SerialGUI(QWidget,Ui_Form):
     def closeEvent(self, event):
         # 在关闭窗口时执行的操作
         print("Widget is being closed")
-        # 如果你想要完全退出应用程序，可以调用QApplication的quit()方法
-        # QApplication.instance().quit()
         self.threadFlag = False # 关闭进程
         self.autoSend = False  # 关闭进程
         event.accept()  # 接受关闭事件
