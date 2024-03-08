@@ -9,6 +9,7 @@ from PyQt5.QtCore import pyqtSignal
 from datetime import datetime
 import time
 import re
+import xlwings as xw
 from thread import  CountThread
 class SerialGUI(QWidget,Ui_Form):
     state = False # 端口状态
@@ -20,6 +21,7 @@ class SerialGUI(QWidget,Ui_Form):
     autoSend = False # 是否自动重发标志位
     fullData = ""  # 缓存的数据 显示的数据
     check = False #
+    NameTest = "A1"
 
     # 定义一个信号，用于接收串口数据 可以触发槽函数的 详见 Readme.md
     receive_data_signal = pyqtSignal(str)
@@ -38,6 +40,7 @@ class SerialGUI(QWidget,Ui_Form):
 
         self.comboBox.currentIndexChanged.connect(self.updateLabel_1)  # combo_2 槽函数
         self.comboBox_2.currentIndexChanged.connect(self.updateLabel_2) # combo_2 槽函数
+        self.comboBox_8.currentIndexChanged.connect(self.updateLabel_3)  # combo_2 槽函数
         self.checkBox_2.toggled.connect(self.AscllState) # ASCII HEX切换
         self.checkBox_2.setChecked(True)
         self.checkBox_8.toggled.connect(self.autoSent)
@@ -54,6 +57,9 @@ class SerialGUI(QWidget,Ui_Form):
         self.radioButton.setChecked(True)
         self.radioButton_2.toggled.connect(self.radioFunc2)
         self.pushButton.clicked.connect(self.clearLabel)
+        self.textBrowser_3.setToolTip("Test")
+        self.pushButton_3.clicked.connect(self.btn3)
+
 
 
         for x in range(43) :
@@ -65,7 +71,30 @@ class SerialGUI(QWidget,Ui_Form):
             label = getattr(self, f"label_{x + 200}")  # 获取对应索引的label对象
             label.setText("-----")
             text.setText("")
+            # text.setReadOnly(True) # 使文本编辑框不可编辑
             text.setToolTip('Enter text')  # 设置工具提示
+
+    def btn3(self):
+        x = 0
+        app = xw.App(visible=False)
+        # 打开Excel文件
+        wb = xw.Book('Names.xlsx')
+        # 选择要读取的工作表
+        sheet = wb.sheets['Sheet1']
+
+        for c in range(100) :
+            text = getattr(self, f"lineEdit_{c + 200}")
+            text.setText("")
+
+        for column in sheet.range(self.NameTest).expand('down').columns:  # 行 显示的是单个元素
+            print(column.value)
+        for i in (column.value) :
+            text = getattr(self, f"lineEdit_{x + 200}")
+            text.setText(i)
+            x = x + 1
+        wb.close()
+        app.quit()
+
 
     def push(self):
         for x in range(100):
@@ -172,6 +201,10 @@ class SerialGUI(QWidget,Ui_Form):
     def updateLabel_1(self): # 端口选择
         self.ser.setPort(self.comboBox.currentText()) # 列表的文本选择
         print(f"Port is {self.comboBox.currentText()}")
+
+    def updateLabel_3(self): # 端口选择
+        self.NameTest = self.comboBox_8.currentText() # 列表的文本选择
+        print(type(self.NameTest))
 
     def updateLabel_2(self): # 波特率的自定义设置
         if self.comboBox_2.currentText() == "Custom" :
