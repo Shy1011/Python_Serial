@@ -18,6 +18,9 @@
 font: 11pt &quot;楷体&quot;;</string>
   </property>
   <widget class="QTabWidget" name="tabWidget">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -27,7 +30,7 @@ font: 11pt &quot;楷体&quot;;</string>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -615,13 +618,13 @@ p, li { white-space: pre-wrap; }
       </rect>
      </property>
      <property name="text">
-      <string>Clear/清除显示</string>
+      <string>Clear</string>
      </property>
     </widget>
    </widget>
    <widget class="QWidget" name="tab_3">
     <attribute name="title">
-     <string>监测页面</string>
+     <string>自定义名称界面</string>
     </attribute>
     <widget class="QWidget" name="layoutWidget_6">
      <property name="geometry">
@@ -3375,7 +3378,7 @@ p, li { white-space: pre-wrap; }
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>70</x>
@@ -4351,21 +4354,6 @@ p, li { white-space: pre-wrap; }
        <y>10</y>
        <width>281</width>
        <height>741</height>
-      </rect>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tab_4">
-    <attribute name="title">
-     <string>页</string>
-    </attribute>
-    <widget class="QTextBrowser" name="textBrowser_3">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>20</y>
-       <width>1021</width>
-       <height>192</height>
       </rect>
      </property>
     </widget>

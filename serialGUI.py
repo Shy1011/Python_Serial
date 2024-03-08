@@ -10,7 +10,6 @@ from datetime import datetime
 import time
 import re
 import xlwings as xw
-from thread import  CountThread
 class SerialGUI(QWidget,Ui_Form):
     state = False # 端口状态
     threadFlag = True # 线程开启状态
@@ -31,17 +30,30 @@ class SerialGUI(QWidget,Ui_Form):
         super().__init__()
         self.ser = SerialPort() # 创建端口实例
         self.ser.defaultSet()
+        self.frameInit()
 
-        self.setupUi(self) # UI 初始化设置
-        self.portSearch() # 搜索 串口端口
+        for x in range(43) :
+            label = getattr(self, f"label_{81+2*x}")  # 获取对应索引的label对象
+            label.setText("-----")
+
+        for x in range(100) :
+            text = getattr(self, f"lineEdit_{x + 200}")
+            label = getattr(self, f"label_{x + 200}")  # 获取对应索引的label对象
+            label.setText("-----")
+            text.setText("")
+            # text.setReadOnly(True) # 使文本编辑框不可编辑
+            text.setToolTip('Enter text')  # 设置工具提示
+
+    def frameInit(self):
+        self.setupUi(self)  # UI 初始化设置
+        self.portSearch()  # 搜索 串口端口
         self.textBrowser.setText("")
         self.setWindowIcon(QIcon('R.png'))  # 设置窗口图标
         self.setWindowTitle('串口助手')
-
         self.comboBox.currentIndexChanged.connect(self.updateLabel_1)  # combo_2 槽函数
-        self.comboBox_2.currentIndexChanged.connect(self.updateLabel_2) # combo_2 槽函数
+        self.comboBox_2.currentIndexChanged.connect(self.updateLabel_2)  # combo_2 槽函数
         self.comboBox_8.currentIndexChanged.connect(self.updateLabel_3)  # combo_2 槽函数
-        self.checkBox_2.toggled.connect(self.AscllState) # ASCII HEX切换
+        self.checkBox_2.toggled.connect(self.AscllState)  # ASCII HEX切换
         self.checkBox_2.setChecked(True)
         self.checkBox_8.toggled.connect(self.autoSent)
         self.checkBox_8.setChecked(False)
@@ -57,22 +69,12 @@ class SerialGUI(QWidget,Ui_Form):
         self.radioButton.setChecked(True)
         self.radioButton_2.toggled.connect(self.radioFunc2)
         self.pushButton.clicked.connect(self.clearLabel)
-        self.textBrowser_3.setToolTip("Test")
         self.pushButton_3.clicked.connect(self.btn3)
 
-
-
-        for x in range(43) :
-            label = getattr(self, f"label_{81+2*x}")  # 获取对应索引的label对象
-            label.setText("-----")
-
-        for x in range(100) :
-            text = getattr(self, f"lineEdit_{x + 200}")
-            label = getattr(self, f"label_{x + 200}")  # 获取对应索引的label对象
-            label.setText("-----")
-            text.setText("")
-            # text.setReadOnly(True) # 使文本编辑框不可编辑
-            text.setToolTip('Enter text')  # 设置工具提示
+        self.pushButton_3.setToolTip("按下这个按键来设置名字")
+        self.comboBox_8.setToolTip("选择表格中哪一列的数据")
+        self.pushButton_2.setToolTip("清楚表格中所有侦测到的数据")
+        self.ClearData.setToolTip("清除屏幕上显示的所有接收到的数据")
 
     def btn3(self):
         x = 0
@@ -159,7 +161,7 @@ class SerialGUI(QWidget,Ui_Form):
         try :
             self.ser.sendData(self.textEdit.toPlainText())
             self.dataSent = self.dataSent + len(self.textEdit.toPlainText())
-            self.label_9.setText(f'Rx : {str(self.dataSent)}')
+            self.label_9.setText(f'Tx : {str(self.dataSent)}')
         except :
             print("The port has already been opened")
             win = portHasBeenOpened("请先打开窗口")
